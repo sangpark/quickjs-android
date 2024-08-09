@@ -1,3 +1,3 @@
 [submodule "quickjs/quickjs"]
 	path = quickjs/quickjs
-	url = https://github.com/seven332/quickjs.git
+	url = git@github.com:seven332/quickjs.git
