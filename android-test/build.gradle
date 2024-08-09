@@ -15,6 +15,7 @@
  */
 
 import java.util.zip.CRC32
+import org.apache.commons.io.IOUtils
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -30,11 +31,15 @@ android {
         versionName '1.0'
         externalNativeBuild {
             cmake {
-                arguments '-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON'
+                arguments '-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
             }
         }
     }
-
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
     sourceSets {
         main.assets.srcDirs += 'testassets'
     }
@@ -71,9 +76,10 @@ android {
             path 'CMakeLists.txt'
         }
     }
+    namespace 'com.hippo.quickjs.test.android'
 }
 
-task bundleTestAssets(type: Zip) {
+tasks.register("bundleTestAssets", Zip) {
     doFirst {
         delete "${projectDir}/testassets"
         file("${projectDir}/testassets").mkdirs()
@@ -81,8 +87,12 @@ task bundleTestAssets(type: Zip) {
 
     from "${rootProject.projectDir}/quickjs/quickjs"
     exclude '**/*.c', '**/*.h'
-    archiveName "testassets.zip"
-    destinationDir file("${projectDir}/testassets")
+    archiveFileName.set("testassets.zip")
+    destinationDirectory.set(file("${projectDir}/testassets"))
+
+//    archiveFileName "testassets.zip"
+//    archiveExtension "zip"
+//    destinationDirectory file("${projectDir}/testassets")
 
     doLast {
         File testassets = file("${projectDir}/testassets/testassets.zip")

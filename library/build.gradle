@@ -26,8 +26,13 @@ android {
         externalNativeBuild {
             cmake {
                 targets 'quickjs-android'
-                arguments '-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON'
+                arguments '-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
             }
+        }
+    }
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
         }
     }
 
@@ -52,6 +57,7 @@ android {
             path 'CMakeLists.txt'
         }
     }
+    namespace 'com.hippo.quickjs.android'
 }
 
 dependencies {

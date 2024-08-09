@@ -18,11 +18,11 @@ set(QUICKJS_ANDROID_SOURCES
 )
 
 if (LEAK_TRIGGER)
-    set(COMMON_FLAGS -DLEAK_TRIGGER)
+    set(COMMON_FLAGS -DLEAK_TRIGGER -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON)
 else ()
     set(COMMON_FLAGS)
 endif (LEAK_TRIGGER)
 
 add_library(quickjs-android SHARED ${QUICKJS_ANDROID_SOURCES})
 target_compile_options(quickjs-android PRIVATE ${COMMON_FLAGS})
-target_link_libraries(quickjs-android PRIVATE quickjs)
+target_link_libraries(quickjs-android PRIVATE quickjs -Wl,-z,max-page-size=16384)
