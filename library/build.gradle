@@ -18,15 +18,24 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 31
+    ndkVersion "23.1.7779620"
+    buildFeatures {
+        buildConfig true
+    }
 
     defaultConfig {
         minSdkVersion 18
-        targetSdkVersion 31
+        targetSdkVersion 33
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        // https://developer.android.com/reference/tools/gradle-api/8.0/com/android/build/api/dsl/ExternalNativeBuildFlags
         externalNativeBuild {
             cmake {
                 targets 'quickjs-android'
-                arguments '-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
+//                arguments '-DCMAKE_VERBOSE_MAKEFILE=ON -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON -DANDROID_PLATFORM=18'
+                arguments '-DCMAKE_VERBOSE_MAKEFILE=ON -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
+//                cppFlags "-Wl,--max-page-size=16384,--hash-style=both"
+//                cFlags "-D__STDC_FORMAT"
+
             }
         }
     }
@@ -48,13 +57,29 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            buildConfigField "boolean", "ENABLE_LOG", "false"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            jniDebuggable true
+            minifyEnabled false
+            buildConfigField "boolean", "ENABLE_LOG", "false"
+            externalNativeBuild {
+                cmake {
+//                    cppFlags "-DANDROID_PLATFORM=android-18"
+                    arguments "-DCMAKE_VERBOSE_MAKEFILE=ON -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+//                    arguments "-DCMAKE_VERBOSE_MAKEFILE=ON -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON -DANDROID_PLATFORM=18"
+                }
+            }
+
         }
     }
 
     externalNativeBuild {
         cmake {
             path 'CMakeLists.txt'
+
         }
     }
     namespace 'com.hippo.quickjs.android'
