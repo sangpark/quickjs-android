@@ -2,7 +2,7 @@
 #include <quickjs.h>
 #include <string.h>
 #include <malloc.h>
-//#include <android/log.h>
+#include <android/log.h>
 
 #include "java-method.h"
 #include "java-object.h"
@@ -14,7 +14,7 @@
 #define MSG_NULL_JS_VALUE "Null JSValue"
 #define LOG_TAG "QuickJS JNI"
 
-//#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 
 static jmethodID on_interrupt_method;
 
@@ -1118,7 +1118,7 @@ Java_com_hippo_quickjs_android_QuickJS_evaluate(
     CHECK_NULL_RET(env, ctx, MSG_NULL_JS_CONTEXT);
     CHECK_NULL_RET(env, source_code, "Null source code");
     CHECK_NULL_RET(env, file_name, "Null file name");
-//    LOGI("Finished null checks");
+    LOGI("Finished null checks");
 
     const char *source_code_utf = NULL;
     jsize source_code_length = 0;
@@ -1128,8 +1128,8 @@ Java_com_hippo_quickjs_android_QuickJS_evaluate(
     source_code_utf = (*env)->GetStringUTFChars(env, source_code, NULL);
     source_code_length = (*env)->GetStringUTFLength(env, source_code);
     file_name_utf = (*env)->GetStringUTFChars(env, file_name, NULL);
-//    LOGI("file name %s", file_name_utf);
-//    LOGI("%s", source_code_utf);
+    LOGI("file name %s", file_name_utf);
+    LOGI("%s", source_code_utf);
 
     if (source_code_utf != NULL && file_name_utf != NULL) {
         JSValue val = JS_Eval(ctx, source_code_utf, (size_t) source_code_length, file_name_utf, flags);
