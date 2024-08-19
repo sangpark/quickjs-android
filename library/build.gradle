@@ -68,7 +68,7 @@ android {
             externalNativeBuild {
                 cmake {
 //                    cppFlags "-DANDROID_PLATFORM=android-18"
-                    arguments "-DCMAKE_VERBOSE_MAKEFILE=ON -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+                    arguments "-DCMAKE_VERBOSE_MAKEFILE=ON -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON  -DCMAKE_CXX_FLAGS=-llog"
 //                    arguments "-DCMAKE_VERBOSE_MAKEFILE=ON -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON -DANDROID_PLATFORM=18"
                 }
             }

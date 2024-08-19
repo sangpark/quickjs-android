@@ -35,5 +35,9 @@ target_link_options(quickjs-android PRIVATE
         -Wl,-z,max-page-size=16384
         -Wl,--hash-style=both
 )
-target_link_libraries(quickjs-android PRIVATE quickjs log)
+
+
+find_library(log-lib log)
+
+target_link_libraries(quickjs-android PRIVATE quickjs ${log-lib})
 #target_link_libraries(quickjs-android PRIVATE quickjs -Wl,-z,max-page-size=16384 --hash-style=both, -llog )

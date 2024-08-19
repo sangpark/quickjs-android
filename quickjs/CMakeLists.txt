@@ -72,9 +72,12 @@ set_target_properties(run-test262 PROPERTIES OUTPUT_NAME librun-test262.so)
 
 add_library(quickjs SHARED ${QUICKJS_LIB_SOURCES})
 add_library(quickjs_static STATIC ${QUICKJS_LIB_SOURCES}) # Create the static library .a file
-
 target_compile_options(quickjs PRIVATE ${COMMON_FLAGS})
 target_include_directories(quickjs PUBLIC quickjs .)
+find_library(log-lib log)
+
+# Link the log library to the quickjs library
+target_link_libraries(quickjs PRIVATE ${log-lib})
 
 message(NOTICE "Setting Linkages")
 #target_link_options(quickjs PRIVATE
